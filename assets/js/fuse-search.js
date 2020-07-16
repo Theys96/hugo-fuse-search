@@ -13,24 +13,24 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 var fuse; // holds our search engine
 var searchVisible = false; 
 var firstRun = true; // allow us to delay loading json data unless search activated
-var list = document.getElementById('searchResults'); // targets the <ul>
+var list = document.getElementById('fuse-search-results'); // targets the <ul>
 var first = list.firstChild; // first child of search list
 var last = list.lastChild; // last child of search list
-var maininput = document.getElementById('searchInput'); // input box for search
+var maininput = document.getElementById('fuse-search-input'); // input box for search
 var resultsAvailable = false; // Did we get any search results?
 
 // ==========================================
 // The main keyboard event listener running the show
 //
 function closeSearchBox() {
-  document.getElementById("fastSearch").style.visibility = "hidden"; // hide search box
+  document.getElementById("fuse-search-top-searchbar").style.visibility = "hidden"; // hide search box
   document.activeElement.blur(); // remove focus from search box 
   searchVisible = false; // search not visible
 }
 
 function openSearchBox() {
-  document.getElementById("fastSearch").style.visibility = "visible"; // show search box
-  document.getElementById("searchInput").focus(); // put focus in input box so you can just start typing
+  document.getElementById("fuse-search-top-searchbar").style.visibility = "visible"; // show search box
+  document.getElementById("fuse-search-input").focus(); // put focus in input box so you can just start typing
   searchVisible = true; // search visible
 }
 
@@ -86,7 +86,7 @@ document.addEventListener('keydown', function(event) {
 // close when focus is lost
 //
 document.addEventListener('click', function(e) {
-  if (!document.getElementById("fastSearch").contains(e.target) && searchVisible) {
+  if (!document.getElementById("fuse-search-top-searchbar").contains(e.target) && searchVisible) {
     closeSearchBox()
   }
 });
@@ -94,7 +94,7 @@ document.addEventListener('click', function(e) {
 // ==========================================
 // execute search as each character is typed
 //
-document.getElementById("searchInput").onkeyup = function(e) { 
+document.getElementById("fuse-search-input").onkeyup = function(e) { 
   executeSearch(this.value);
 }
 
@@ -121,8 +121,14 @@ function fetchJSONFile(path, callback) {
 // load our search index, only executed once
 // on first call of search box (CMD-/)
 //
+function filterLang(page) {
+  return page.lang == document.documentElement.lang;
+}
+
 function loadSearch() { 
   fetchJSONFile('/index.json', function(data){
+
+    data = data.filter(filterLang)
 
     var options = { // fuse.js options; check fuse.js website for details
       shouldSort: true,
@@ -157,17 +163,18 @@ function executeSearch(term) {
     for (let item in results.slice(0,5)) { // only show first 5 results
       result = results[item];
       if ('item' in result) {
+        item = result.item;
         searchitems = searchitems + 
-          '<li><a href="' + result.item.permalink + '" tabindex="0">' + 
-          '<span class="title">' + result.item.title + '</span>' + 
-          '<span class="text">' + result.item.permalink + '</span>' + 
+          '<li><a href="' + item.permalink + '" tabindex="0">' + 
+          '<span class="title">' + item.title + '</span>' + 
+          '<span class="text">' + item.permalink + '</span>' + 
           '</a></li>';
       }
     }
     resultsAvailable = true;
   }
 
-  document.getElementById("searchResults").innerHTML = searchitems;
+  document.getElementById("fuse-search-results").innerHTML = searchitems;
   if (results.length > 0) {
     first = list.firstChild; // first result container — used for checking against keyboard up/down location
     last = list.lastChild; // last result container — used for checking against keyboard up/down location

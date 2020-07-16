@@ -10,7 +10,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 */
 
 
-#fastSearch { 
+#fuse-search-top-searchbar { 
   visibility: hidden;
   position: fixed;
   right: 5px;
@@ -23,7 +23,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   background-color: rgba(0,0,0,0.5);
 }
 
-#fastSearch input {
+#fuse-search-top-searchbar input#fuse-search-input {
   width: 100%;
   font-size: 1.5em;
   color: #ccc;
@@ -32,14 +32,14 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   border: none;
 }
 
-#searchResults { 
+#fuse-search-results { 
   visibility: inherit; 
   width: 100%; 
   margin: 0; 
   padding: 0; 
 }
 
-#searchResults::before {
+#fuse-search-results::before {
   font-weight: bold;
   color: #fff;
   content: "...";
@@ -48,12 +48,12 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   width: 100%;
 }
 
-#searchResults li { 
+#fuse-search-results li { 
   list-style: none; 
   margin-left: 0em;
 }
 
-#searchResults a { 
+#fuse-search-results a { 
   width: 100%;
   display: inline-block;
   text-decoration: none;
@@ -62,12 +62,12 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   padding-bottom: 10px;
 }
 
-#searchResults a:hover, a:focus { 
+#fuse-search-results a:hover, #fuse-search-results a:focus { 
   color: #fff !important;
   background-color: #666 !important;
 }
 
-#searchResults li .title {
+#fuse-search-results li .title {
   color: #fff;
   font-size: 1.1em;
   width: 100%;
@@ -75,73 +75,8 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   box-sizing: content-box;
 }
 
-#searchResults li .text {
+#fuse-search-results li .text {
   display: inline-block;
   padding-left: 20px;
   box-sizing: content-box;
 }
-
-
-/*
-#fastSearch { 
-  visibility: hidden;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  display: inline-block;
-  width: 300px;
-  z-index: 20;
-}      
-
-#fastSearch input {
-  width: 100%;
-  height: 31px;
-  font-size: 1.6em;
-  color: #aaa;
-  font-weight: bold;
-  background-color: #000;
-  border-radius: 3px 3px 0px 0px;
-  border: none;
-  outline: none;
-  text-align: left;
-  display: inline-block;
-}
-
-#searchResults li { 
-  list-style: none; 
-  margin-left: 0em;
-  background-color: #333; 
-  border-bottom: 1px dotted #000;
-}
-
-#searchResults li .title { 
-  font-size: 1.1em; 
-  margin-bottom: 10px; 
-  display: inline-block;
-}
-
-#searchResults { 
-  visibility: inherit; 
-  display: inline-block; 
-  width: width: 100%; 
-  margin: 0; 
-  padding: 0; 
-}
-
-#searchResults a { 
-  color: #999; 
-  width: 100%; 
-  padding: 0; 
-  margin: 0; 
-  text-decoration: none !important; 
-  padding: 10px; 
-  display: inline-block; 
-}
-
-#searchResults a:hover, a:focus { 
-  outline: 0; 
-  background-color: #666; 
-  color: #fff; 
-}
-*/
-  
