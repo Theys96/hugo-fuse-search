@@ -12,15 +12,29 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 
 #fuse-search-top-searchbar { 
   visibility: hidden;
-  position: fixed;
-  right: 5px;
-  top: 5px;
+  position: absolute;
   display: block;
   width: 320px;
   z-index: 50;
   padding: 5px;
   box-sizing: content-box;
   background-color: rgba(0,0,0,0.5);
+}
+
+.fuse-search-top-searchbar-, .fuse-search-top-searchbar-right {
+  right: 5px;
+  top: 5px;
+}
+
+.fuse-search-top-searchbar-left {
+  left: 5px;
+  top: 5px;
+}
+
+.fuse-search-top-searchbar-center {
+  top: 5px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 #fuse-search-top-searchbar input#fuse-search-input {

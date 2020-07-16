@@ -1,12 +1,4 @@
-{{ with $.Site.Params.search -}}
-{{ if eq .enabled true -}}
-
-
-<!-- Hugo fuse-search floating search element -->
-<div id="fuse-search-top-searchbar">
-  <input id="fuse-search-input" tabindex="0" placeholder="search">
-  <ul id="fuse-search-results"></ul>
-</div>
+{{ if eq (.Param "search.enabled") true }}
 
 <!-- Hugo fuse-search libraries -->
 {{ $js := resources.Get "js/fuse.6.4.0.js" }}
@@ -16,4 +8,4 @@
 {{ $secureJS := $js |  resources.Minify | resources.Fingerprint }}
 <script type="text/javascript" src="{{ $secureJS.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}" crossorigin="anonymous"></script>
 
-{{- end -}}{{- end -}}
+{{- end -}}
