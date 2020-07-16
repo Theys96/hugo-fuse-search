@@ -139,7 +139,7 @@ function loadSearch() {
       keys: [
         'title',
         'permalink',
-        'summary'
+        'contents'
         ]
     };
     fuse = new Fuse(data, options); // build the index from the json file
