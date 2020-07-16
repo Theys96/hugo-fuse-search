@@ -9,6 +9,80 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
+#fastSearch { 
+  visibility: hidden;
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  display: block;
+  width: 320px;
+  z-index: 50;
+  padding: 5px;
+  box-sizing: content-box;
+  background-color: rgba(0,0,0,0.5);
+}
+
+#fastSearch input {
+  width: 100%;
+  font-size: 1.5em;
+  color: #ccc;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+
+#searchResults { 
+  visibility: inherit; 
+  width: 100%; 
+  margin: 0; 
+  padding: 0; 
+}
+
+#searchResults::before {
+  font-weight: bold;
+  color: #fff;
+  content: "...";
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+#searchResults li { 
+  list-style: none; 
+  margin-left: 0em;
+}
+
+#searchResults a { 
+  width: 100%;
+  display: inline-block;
+  text-decoration: none;
+  color: #777;
+  background-color: rgba(0,0,0,0.3);
+  padding-bottom: 10px;
+}
+
+#searchResults a:hover, a:focus { 
+  color: #fff !important;
+  background-color: #666 !important;
+}
+
+#searchResults li .title {
+  color: #fff;
+  font-size: 1.1em;
+  width: 100%;
+  display: inline-block;
+  box-sizing: content-box;
+}
+
+#searchResults li .text {
+  display: inline-block;
+  padding-left: 20px;
+  box-sizing: content-box;
+}
+
+
+/*
 #fastSearch { 
   visibility: hidden;
   position: absolute;
@@ -19,8 +93,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   z-index: 20;
 }      
 
-#fastSearch input { 
-  padding: 4px 10px;
+#fastSearch input {
   width: 100%;
   height: 31px;
   font-size: 1.6em;
@@ -41,8 +114,34 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   border-bottom: 1px dotted #000;
 }
 
-#searchResults li .title { font-size: 1.1em; margin-bottom: 10px; display: inline-block;}
-#searchResults { visibility: inherit; display: inline-block; width: 320px; margin: 0; padding: 0; }
-#searchResults a { color: #999; width: 100%; padding: 0; margin: 0; text-decoration: none !important; padding: 10px; display: inline-block; }
-#searchResults a:hover, a:focus { outline: 0; background-color: #666; color: #fff; }
+#searchResults li .title { 
+  font-size: 1.1em; 
+  margin-bottom: 10px; 
+  display: inline-block;
+}
+
+#searchResults { 
+  visibility: inherit; 
+  display: inline-block; 
+  width: width: 100%; 
+  margin: 0; 
+  padding: 0; 
+}
+
+#searchResults a { 
+  color: #999; 
+  width: 100%; 
+  padding: 0; 
+  margin: 0; 
+  text-decoration: none !important; 
+  padding: 10px; 
+  display: inline-block; 
+}
+
+#searchResults a:hover, a:focus { 
+  outline: 0; 
+  background-color: #666; 
+  color: #fff; 
+}
+*/
   

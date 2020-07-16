@@ -22,6 +22,18 @@ var resultsAvailable = false; // Did we get any search results?
 // ==========================================
 // The main keyboard event listener running the show
 //
+function closeSearchBox() {
+  document.getElementById("fastSearch").style.visibility = "hidden"; // hide search box
+  document.activeElement.blur(); // remove focus from search box 
+  searchVisible = false; // search not visible
+}
+
+function openSearchBox() {
+  document.getElementById("fastSearch").style.visibility = "visible"; // show search box
+  document.getElementById("searchInput").focus(); // put focus in input box so you can just start typing
+  searchVisible = true; // search visible
+}
+
 document.addEventListener('keydown', function(event) {
 
   // CMD-/ to show / hide Search
@@ -35,33 +47,26 @@ document.addEventListener('keydown', function(event) {
 
       // Toggle visibility of search box
       if (!searchVisible) {
-        document.getElementById("fastSearch").style.visibility = "visible"; // show search box
-        document.getElementById("searchInput").focus(); // put focus in input box so you can just start typing
-        searchVisible = true; // search visible
+        openSearchBox();
       }
       else {
-        document.getElementById("fastSearch").style.visibility = "hidden"; // hide search box
-        document.activeElement.blur(); // remove focus from search box 
-        searchVisible = false; // search not visible
+        closeSearchBox();
       }
   }
 
   // Allow ESC (27) to close search box
   if (event.keyCode == 27) {
     if (searchVisible) {
-      document.getElementById("fastSearch").style.visibility = "hidden";
-      document.activeElement.blur();
-      searchVisible = false;
+      closeSearchBox();
     }
   }
 
   // DOWN (40) arrow
   if (event.keyCode == 40) {
     if (searchVisible && resultsAvailable) {
-      console.log("down");
       event.preventDefault(); // stop window from scrolling
-      if ( document.activeElement == maininput) { first.focus(); } // if the currently focused element is the main input --> focus the first <li>
-      else if ( document.activeElement == last ) { last.focus(); } // if we're at the bottom, stay there
+      if ( document.activeElement == maininput) { first.firstElementChild.focus(); } // if the currently focused element is the main input --> focus the first <li>
+      else if ( document.activeElement.parentElement == last ) { last.firstElementChild.focus(); } // if we're at the bottom, stay there
       else { document.activeElement.parentElement.nextSibling.firstElementChild.focus(); } // otherwise select the next search result
     }
   }
@@ -71,12 +76,20 @@ document.addEventListener('keydown', function(event) {
     if (searchVisible && resultsAvailable) {
       event.preventDefault(); // stop window from scrolling
       if ( document.activeElement == maininput) { maininput.focus(); } // If we're in the input box, do nothing
-      else if ( document.activeElement == first) { maininput.focus(); } // If we're at the first item, go to input box
+      else if ( document.activeElement.parentElement == first) { maininput.focus(); } // If we're at the first item, go to input box
       else { document.activeElement.parentElement.previousSibling.firstElementChild.focus(); } // Otherwise, select the search result above the current active one
     }
   }
 });
 
+// ==========================================
+// close when focus is lost
+//
+document.addEventListener('click', function(e) {
+  if (!document.getElementById("fastSearch").contains(e.target) && searchVisible) {
+    closeSearchBox()
+  }
+});
 
 // ==========================================
 // execute search as each character is typed
@@ -144,7 +157,11 @@ function executeSearch(term) {
     for (let item in results.slice(0,5)) { // only show first 5 results
       result = results[item];
       if ('item' in result) {
-        searchitems = searchitems + '<li><a href="' + result.item.permalink + '" tabindex="0">' + '<span class="title">' + result.item.title + '</span></a></li>';
+        searchitems = searchitems + 
+          '<li><a href="' + result.item.permalink + '" tabindex="0">' + 
+          '<span class="title">' + result.item.title + '</span>' + 
+          '<span class="text">' + result.item.permalink + '</span>' + 
+          '</a></li>';
       }
     }
     resultsAvailable = true;
@@ -152,7 +169,7 @@ function executeSearch(term) {
 
   document.getElementById("searchResults").innerHTML = searchitems;
   if (results.length > 0) {
-    first = list.firstChild.firstElementChild; // first result container — used for checking against keyboard up/down location
-    last = list.lastChild.firstElementChild; // last result container — used for checking against keyboard up/down location
+    first = list.firstChild; // first result container — used for checking against keyboard up/down location
+    last = list.lastChild; // last result container — used for checking against keyboard up/down location
   }
 }
