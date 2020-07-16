@@ -13,6 +13,8 @@ The current implementation is quite minimal. It adds a dynamic search bar which 
 
 ![Anatole preview](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/anatole.gif)
 
+Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navigate the results (or just click them).
+
 ## Installation
 
 1. First, download or clone this repository. 
@@ -40,7 +42,9 @@ The current implementation is quite minimal. It adds a dynamic search bar which 
    [params.search]
    enabled = true
    ```
-
+	
+	The `outputs.home` setting is set to instruct Hugo to output a `index.json` file which is used by the search engine to index the website. The `search.enabled` parameter can be used to turn search on and off. This parameter can also be set in front matter to allow for search on a per-page basis.
+	
 5. (optional) Further configure hugo-fuse-search:
 
    ```
