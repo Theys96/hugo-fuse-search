@@ -10,6 +10,93 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 */
 
 
+
+// ==========================================
+// BASICS
+//
+
+function setupSearch() { globalThis.fusesearch   = new FuseSearch(); }
+function setupTopSearchbar() { 
+    if ('fusesearch' in globalThis) {
+        new TopSearchbar(globalThis.fusesearch);
+    }
+}
+
+window.onload = setupSearch;
+
+
+// ==========================================
+// CLASSES
+//
+
+class FuseSearch {
+    isInit     = false;
+    index      = "/index.json";
+    fuse       = false;
+    fuseConfig = { 
+        shouldSort: true,
+        location: 0,
+        distance: 100,
+        threshold: 0.4,
+        minMatchCharLength: 2,
+        keys: ['title', 'permalink', 'contents']
+    };
+
+    constructor() {
+        
+    }
+
+    init() {
+        if (!this.isInit) {
+            this.loadSearch();
+            this.isInit = true;
+        }
+    }
+
+    loadSearch() {
+        let fs = this;
+        fetchJSONFile(fs.index, function(data) {
+            data = data.filter(function(page) {
+                return page.lang == document.documentElement.lang;
+            })
+            fs.fuse = new Fuse(data, fs.fuseConfig);
+        });
+    }
+}
+
+class TopSearchbar {
+    constructor(fusesearch, elementId) {
+        this.search  = fusesearch;
+    }
+}
+
+
+// ==========================================
+// HELPER FUNCTIONS
+//
+
+/* Fetches JSON file and returns the parsed contents in the callback */
+function fetchJSONFile(path, callback) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState === 4) {
+            if (httpRequest.status === 200) {
+                var data = JSON.parse(httpRequest.responseText);
+                if (callback) { callback(data); }
+            }
+        }
+    };
+    httpRequest.open('GET', path);
+    httpRequest.send(); 
+}
+
+
+
+
+// ==========================================
+// LEGACY
+// ==========================================
+
 var fuse; // holds our search engine
 var searchVisible = false; 
 var firstRun = true; // allow us to delay loading json data unless search activated
@@ -96,24 +183,6 @@ document.addEventListener('click', function(e) {
 //
 document.getElementById("fuse-search-input").onkeyup = function(e) { 
   executeSearch(this.value);
-}
-
-
-// ==========================================
-// fetch some json without jquery
-//
-function fetchJSONFile(path, callback) {
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        var data = JSON.parse(httpRequest.responseText);
-          if (callback) callback(data);
-      }
-    }
-  };
-  httpRequest.open('GET', path);
-  httpRequest.send(); 
 }
 
 

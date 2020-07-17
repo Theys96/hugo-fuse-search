@@ -2,10 +2,19 @@
 
 <!-- Hugo fuse-search libraries -->
 {{ $js := resources.Get "js/fuse.6.4.0.js" }}
-{{ $secureJS := $js |  resources.Minify | resources.Fingerprint }}
+{{- $secureJS := $js |  resources.Minify | resources.Fingerprint -}}
 <script type="text/javascript" src="{{ $secureJS.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}" crossorigin="anonymous"></script>
 {{ $js := resources.Get "js/fuse-search.js" }}
-{{ $secureJS := $js |  resources.Minify | resources.Fingerprint }}
+{{- $secureJS := $js |  resources.Minify | resources.Fingerprint -}}
 <script type="text/javascript" src="{{ $secureJS.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}" crossorigin="anonymous"></script>
+
+<!-- Hugo fuse-search topSearchbar -->
+{{- if eq (.Param "search.topSearchbar.enabled") true -}}
+<div id="fuse-search-top-searchbar" class="fuse-search-top-searchbar-{{ .Param "search.topSearchbar.position" }}">
+  <input id="fuse-search-input" tabindex="0" placeholder="search">
+  <ul id="fuse-search-results"></ul>
+</div>
+<script>setupTopSearchbar();</script>
+{{- end -}}
 
 {{- end -}}

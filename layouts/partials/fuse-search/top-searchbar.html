@@ -1,9 +1,0 @@
-{{ if eq (.Param "search.enabled") true }}
-
-<!-- Hugo fuse-search floating search element -->
-<div id="fuse-search-top-searchbar" class="fuse-search-top-searchbar-{{ .Param "search.topSearchbar.position" }}">
-  <input id="fuse-search-input" tabindex="0" placeholder="search">
-  <ul id="fuse-search-results"></ul>
-</div>
-
-{{- end -}}
