@@ -7,6 +7,7 @@
 {{ $js := resources.Get "js/fuse-search.js" }}
 {{- $secureJS := $js |  resources.Minify | resources.Fingerprint -}}
 <script type="text/javascript" src="{{ $secureJS.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}" crossorigin="anonymous"></script>
+<script>setupSearch();</script>
 
 <!-- Hugo fuse-search topSearchbar -->
 {{- if eq (.Param "search.topSearchbar.enabled") true -}}
