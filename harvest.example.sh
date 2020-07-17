@@ -18,8 +18,8 @@ echo "Note: This script will attempt to overwrite the files in this project with
 read -p "Are you sure? " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-	echo 
-    exit 1
+ echo 
+ exit 1
 fi
 echo 
 

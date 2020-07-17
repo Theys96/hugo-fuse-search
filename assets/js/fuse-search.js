@@ -1,182 +1,214 @@
 /*
-Copyright 2020 Craig Mod
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * Author: Thijs Havinga
+ * as part of the hugo-fuse-search project
+ * https://github.com/theys96/hugo-fuse-search/
+ * 
+ * Note: contains parts of code still remaining from the original code this
+ * program is based on. Author: Craig Mod.
+ * https://gist.github.com/cmod/5410eae147e4318164258742dd053993
 */
 
-
-var fuse; // holds our search engine
-var searchVisible = false; 
-var firstRun = true; // allow us to delay loading json data unless search activated
-var list = document.getElementById('fuse-search-results'); // targets the <ul>
-var first = list.firstChild; // first child of search list
-var last = list.lastChild; // last child of search list
-var maininput = document.getElementById('fuse-search-input'); // input box for search
-var resultsAvailable = false; // Did we get any search results?
-
 // ==========================================
-// The main keyboard event listener running the show
+// BASICS
 //
-function closeSearchBox() {
-  document.getElementById("fuse-search-top-searchbar").style.visibility = "hidden"; // hide search box
-  document.activeElement.blur(); // remove focus from search box 
-  searchVisible = false; // search not visible
-}
 
-function openSearchBox() {
-  document.getElementById("fuse-search-top-searchbar").style.visibility = "visible"; // show search box
-  document.getElementById("fuse-search-input").focus(); // put focus in input box so you can just start typing
-  searchVisible = true; // search visible
-}
-
-document.addEventListener('keydown', function(event) {
-
-  // CMD-/ to show / hide Search
-  if (event.metaKey && event.which === 191) {
-      // Load json search index if first time invoking search
-      // Means we don't load json unless searches are going to happen; keep user payload small unless needed
-      if(firstRun) {
-        loadSearch(); // loads our json data and builds fuse.js search index
-        firstRun = false; // let's never do this again
-      }
-
-      // Toggle visibility of search box
-      if (!searchVisible) {
-        openSearchBox();
-      }
-      else {
-        closeSearchBox();
-      }
-  }
-
-  // Allow ESC (27) to close search box
-  if (event.keyCode == 27) {
-    if (searchVisible) {
-      closeSearchBox();
+function setupSearch() { globalThis.fusesearch   = new FuseSearch(); }
+function setupTopSearchbar() {
+    if ('fusesearch' in globalThis) {
+        new TopSearchbar(globalThis.fusesearch);
     }
-  }
-
-  // DOWN (40) arrow
-  if (event.keyCode == 40) {
-    if (searchVisible && resultsAvailable) {
-      event.preventDefault(); // stop window from scrolling
-      if ( document.activeElement == maininput) { first.firstElementChild.focus(); } // if the currently focused element is the main input --> focus the first <li>
-      else if ( document.activeElement.parentElement == last ) { last.firstElementChild.focus(); } // if we're at the bottom, stay there
-      else { document.activeElement.parentElement.nextSibling.firstElementChild.focus(); } // otherwise select the next search result
-    }
-  }
-
-  // UP (38) arrow
-  if (event.keyCode == 38) {
-    if (searchVisible && resultsAvailable) {
-      event.preventDefault(); // stop window from scrolling
-      if ( document.activeElement == maininput) { maininput.focus(); } // If we're in the input box, do nothing
-      else if ( document.activeElement.parentElement == first) { maininput.focus(); } // If we're at the first item, go to input box
-      else { document.activeElement.parentElement.previousSibling.firstElementChild.focus(); } // Otherwise, select the search result above the current active one
-    }
-  }
-});
-
-// ==========================================
-// close when focus is lost
-//
-document.addEventListener('click', function(e) {
-  if (!document.getElementById("fuse-search-top-searchbar").contains(e.target) && searchVisible) {
-    closeSearchBox()
-  }
-});
-
-// ==========================================
-// execute search as each character is typed
-//
-document.getElementById("fuse-search-input").onkeyup = function(e) { 
-  executeSearch(this.value);
 }
 
 
 // ==========================================
-// fetch some json without jquery
+// CLASSES
 //
-function fetchJSONFile(path, callback) {
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        var data = JSON.parse(httpRequest.responseText);
-          if (callback) callback(data);
-      }
-    }
-  };
-  httpRequest.open('GET', path);
-  httpRequest.send(); 
-}
 
-
-// ==========================================
-// load our search index, only executed once
-// on first call of search box (CMD-/)
-//
-function filterLang(page) {
-  return page.lang == document.documentElement.lang;
-}
-
-function loadSearch() { 
-  fetchJSONFile('/index.json', function(data){
-
-    data = data.filter(filterLang)
-
-    var options = { // fuse.js options; check fuse.js website for details
-      shouldSort: true,
-      location: 0,
-      distance: 100,
-      threshold: 0.4,
-      minMatchCharLength: 2,
-      keys: [
-        'title',
-        'permalink',
-        'contents'
-        ]
+/* Core search class containing logic for the search engine */
+class FuseSearch {
+    isInit     = false;
+    index      = "/index.json";
+    fuse       = false;
+    fuseConfig = { 
+        shouldSort: true,
+        location: 0,
+        distance: 100,
+        threshold: 0.4,
+        minMatchCharLength: 2,
+        keys: ['title', 'permalink', 'contents']
     };
-    fuse = new Fuse(data, options); // build the index from the json file
-  });
+
+    constructor() {
+        console.log("hugo-fuse-search: fuse-search created.");
+    }
+
+    // Init search if it wasn't already.
+    // Initialization is only executed once a user
+    // starts searching.
+    init() {
+        if (!this.isInit) {
+            this.loadSearch();
+            this.isInit = true;
+            console.log("hugo-fuse-search: fuse-search initiated.");
+        }
+    }
+
+    // Loads the JSON site index and creates the Fuse.io engine object for search
+    loadSearch() {
+        let fs = this;
+        fetchJSONFile(fs.index, function(data) {
+            data = data.filter(function(page) {
+                return page.lang == document.documentElement.lang;
+            })
+            fs.fuse = new Fuse(data, fs.fuseConfig);
+        });
+    }
+}
+
+/* Class for the top searchbar component 
+ * (absolutely positioned in the page and controlled with the keyboard) 
+ */
+class TopSearchbar {
+    constructor(fusesearch) {
+        this.search           = fusesearch;
+        this.element_main     = document.getElementById("fuse-search-top-searchbar");
+        this.element_input    = document.getElementById('fuse-search-input');
+        this.element_results  = document.getElementById('fuse-search-results');
+        this.top_result       = this.element_results.firstChild;
+        this.bottom_result    = this.element_results.lastChild;
+        this.visible          = false;
+        this.resultsAvailable = false;
+
+        // Listen for keyboard commands
+        document.addEventListener('keydown', (e) => this.keyboardHandler(e, this));
+
+        // Renew search whenever the user types
+        this.element_input.addEventListener('keyup', (e) => { this.executeSearch(this.element_input.value); });
+
+        // Close the searchbar when the user clicks outside it
+        document.addEventListener('click', (e) => {
+            if (!this.element_main.contains(e.target) && this.visible) {
+                this.closeSearchBox()
+            }
+        });
+
+        console.log("hugo-fuse-search: TopSearchbar initiated.");
+    }
+
+    // This component is controlled with the keyboard:
+    keyboardHandler(e, topSearchbar) {
+        if (event.metaKey && event.which === 191) { // Cmd + /
+            topSearchbar.initSearch();
+        } else {
+            switch(e.keyCode) {
+                case 27: // ESC
+                    topSearchbar.closeSearchBox();
+                    break;
+
+                case 40: // DOWN
+                    topSearchbar.navigateDown(e);
+                    break;
+
+                case 38: // UP
+                    topSearchbar.navigateUp(e);
+                    break;
+            }
+        }
+    }
+
+    // Open the search component, check if fuse-search is
+    // already initiated, do so if necessary
+    initSearch() {
+        this.search.init();
+
+        if (this.visible) {
+            this.closeSearchBox();
+        } else {
+            this.openSearchBox();
+        }
+    }
+
+    // Make the component visible
+    openSearchBox() {
+        this.element_main.style.visibility = "visible"; // show search box
+        this.element_input.focus();                     // put focus in input box so you can just start typing
+        this.visible = true;                            // search visible
+    }
+
+    // Make the component invisible
+    closeSearchBox() {
+        this.element_main.style.visibility = "hidden";  // hide search box
+        document.activeElement.blur();                  // remove focus from search box 
+        this.visible = false;                           // search not visible
+    }
+
+    // Move the focus down between results and the searchbar
+    navigateDown(event) {
+        if (this.visible && this.resultsAvailable) {
+            event.preventDefault(); // stop window from scrolling
+            if ( document.activeElement == this.element_input) { this.top_result.firstElementChild.focus(); } // if the currently focused element is the main input --> focus the first <li>
+            else if ( document.activeElement.parentElement == this.bottom_result ) { this.bottom_result.firstElementChild.focus(); } // if we're at the bottom, stay there
+            else { document.activeElement.parentElement.nextSibling.firstElementChild.focus(); } // otherwise select the next search result
+        }
+    }
+
+    // Move the focus up between results and the searchbar
+    navigateUp(event) {
+        if (this.visible && this.resultsAvailable) {
+            event.preventDefault(); // stop window from scrolling
+            if ( document.activeElement == this.element_input) { this.element_input.focus(); } // If we're in the input box, do nothing
+            else if ( document.activeElement.parentElement == this.top_result) { this.element_input.focus(); } // If we're at the first item, go to input box
+            else { document.activeElement.parentElement.previousSibling.firstElementChild.focus(); } // Otherwise, select the search result above the current active one
+        }
+    }
+
+    // Run the search (which happens whenever the user types)
+    executeSearch(term) {
+        let results = this.search.fuse.search(term);  // the actual query being run using fuse.js
+        let searchitems = '';
+
+        if (results.length === 0) {  // no results based on what was typed into the input box
+            this.resultsAvailable = false;
+            searchitems = '';
+        } else {  // we got results, show 5
+            for (let item in results.slice(0,5)) {
+                let result = results[item];
+                if ('item' in result) {
+                    let item = result.item;
+                    searchitems +=
+                        '<li><a href="' + item.permalink + '" tabindex="0">' + 
+                        '<span class="title">' + item.title + '</span>' + 
+                        '<span class="text">' + item.permalink + '</span>' + 
+                        '</a></li>';
+                }
+            }
+            this.resultsAvailable = true;
+        }
+
+        this.element_results.innerHTML = searchitems;
+        if (results.length > 0) {
+            this.top_result    = this.element_results.firstChild;
+            this.bottom_result = this.element_results.lastChild;
+        }
+    }
 }
 
 
 // ==========================================
-// using the index we loaded on CMD-/, run 
-// a search query (for "term") every time a letter is typed
-// in the search box
+// HELPER FUNCTIONS
 //
-function executeSearch(term) {
-  let results = fuse.search(term); // the actual query being run using fuse.js
-  let searchitems = ''; // our results bucket
 
-  if (results.length === 0) { // no results based on what was typed into the input box
-    resultsAvailable = false;
-    searchitems = '';
-  } else { // build our html 
-    for (let item in results.slice(0,5)) { // only show first 5 results
-      result = results[item];
-      if ('item' in result) {
-        item = result.item;
-        searchitems = searchitems + 
-          '<li><a href="' + item.permalink + '" tabindex="0">' + 
-          '<span class="title">' + item.title + '</span>' + 
-          '<span class="text">' + item.permalink + '</span>' + 
-          '</a></li>';
-      }
-    }
-    resultsAvailable = true;
-  }
-
-  document.getElementById("fuse-search-results").innerHTML = searchitems;
-  if (results.length > 0) {
-    first = list.firstChild; // first result container — used for checking against keyboard up/down location
-    last = list.lastChild; // last result container — used for checking against keyboard up/down location
-  }
+/* Fetches JSON file and returns the parsed contents in the callback */
+function fetchJSONFile(path, callback) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState === 4) {
+            if (httpRequest.status === 200) {
+                var data = JSON.parse(httpRequest.responseText);
+                if (callback) { callback(data); }
+            }
+        }
+    };
+    httpRequest.open('GET', path);
+    httpRequest.send(); 
 }
