@@ -23,7 +23,7 @@
 
 <!-- Hugo fuse-search fullscreenSearchbar -->
 {{- if eq (.Param "search.fullscreenSearchbar.enabled") true -}}
-<div id="fuse-search-fullscreen-searchbar" class="fuse-search-top-searchbar-{{ .Param "search.fullscreenSearchbar.color" }}">
+<div id="fuse-search-fullscreen-searchbar" class="fuse-search-fullscreen-searchbar-{{ .Param "search.fullscreenSearchbar.color" }}">
   <a id="fuse-search-fullscreen-searchbar-close">×</a>
   <input id="fuse-search-fullscreen-searchbar-input" tabindex="0" placeholder="search">
   <ul id="fuse-search-fullscreen-searchbar-results"></ul>

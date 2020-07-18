@@ -18,7 +18,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   visibility: hidden;
   position: absolute;
   display: block;
-  max-width: 320px;
+  width: 320px;
   z-index: 50;
   padding: 5px;
   box-sizing: content-box;
@@ -117,61 +117,61 @@ input#fuse-search-top-searchbar-input {
 }
 
 
-.fuse-search-top-searchbar-, .fuse-search-top-searchbar-dark {
+.fuse-search-fullscreen-searchbar-, .fuse-search-fullscreen-searchbar-dark {
   background-color: rgba(0,0,0,0.7);
 }
-.fuse-search-top-searchbar- input#fuse-search-fullscreen-searchbar-input, .fuse-search-top-searchbar-dark input#fuse-search-fullscreen-searchbar-input {
+.fuse-search-fullscreen-searchbar- input#fuse-search-fullscreen-searchbar-input, .fuse-search-fullscreen-searchbar-dark input#fuse-search-fullscreen-searchbar-input {
   color: #ccc;
   background-color: black;
 }
-.fuse-search-top-searchbar- a#fuse-search-fullscreen-searchbar-close, .fuse-search-top-searchbar-dark a#fuse-search-fullscreen-searchbar-close {
+.fuse-search-fullscreen-searchbar- a#fuse-search-fullscreen-searchbar-close, .fuse-search-fullscreen-searchbar-dark a#fuse-search-fullscreen-searchbar-close {
   color: white;
   border: 1px solid white;
   background-color: rgba(0,0,0,0);
 }
-.fuse-search-top-searchbar- a#fuse-search-fullscreen-searchbar-close:hover, .fuse-search-top-searchbar-dark a#fuse-search-fullscreen-searchbar-close:hover {
+.fuse-search-fullscreen-searchbar- a#fuse-search-fullscreen-searchbar-close:hover, .fuse-search-fullscreen-searchbar-dark a#fuse-search-fullscreen-searchbar-close:hover {
   background-color: #666;
 }
-.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results li .title,
-.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results li .title {
+.fuse-search-fullscreen-searchbar- #fuse-search-fullscreen-searchbar-results li .title,
+.fuse-search-fullscreen-searchbar-dark #fuse-search-fullscreen-searchbar-results li .title {
   color: #fff;
 }
-.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a,
-.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a { 
+.fuse-search-fullscreen-searchbar- #fuse-search-fullscreen-searchbar-results a,
+.fuse-search-fullscreen-searchbar-dark #fuse-search-fullscreen-searchbar-results a { 
   color: #777;
 }
-.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a:hover, 
-.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a:focus,
-.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a:hover, 
-.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a:focus { 
+.fuse-search-fullscreen-searchbar- #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-fullscreen-searchbar- #fuse-search-fullscreen-searchbar-results a:focus,
+.fuse-search-fullscreen-searchbar-dark #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-fullscreen-searchbar-dark #fuse-search-fullscreen-searchbar-results a:focus { 
   color: #fff !important;
   background-color: #666 !important;
 }
 
 
-.fuse-search-top-searchbar-light {
+.fuse-search-fullscreen-searchbar-light {
   background-color: rgba(255,255,255,0.7);
 }
-.fuse-search-top-searchbar-light input#fuse-search-fullscreen-searchbar-input {
+.fuse-search-fullscreen-searchbar-light input#fuse-search-fullscreen-searchbar-input {
   color: black;
   background-color: white;
 }
-.fuse-search-top-searchbar-light a#fuse-search-fullscreen-searchbar-close {
+.fuse-search-fullscreen-searchbar-light a#fuse-search-fullscreen-searchbar-close {
   color: white;
   border: 1px solid white;
   background-color: #777;
 }
-.fuse-search-top-searchbar-light a#fuse-search-fullscreen-searchbar-close:hover {
+.fuse-search-fullscreen-searchbar-light a#fuse-search-fullscreen-searchbar-close:hover {
   background-color: black;
 }
-.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results li .title {
+.fuse-search-fullscreen-searchbar-light #fuse-search-fullscreen-searchbar-results li .title {
   color: black;
 }
-.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a { 
+.fuse-search-fullscreen-searchbar-light #fuse-search-fullscreen-searchbar-results a { 
   color: #779;
 }
-.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a:hover, 
-.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a:focus { 
+.fuse-search-fullscreen-searchbar-light #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-fullscreen-searchbar-light #fuse-search-fullscreen-searchbar-results a:focus { 
   color: black;
   background-color: rgba(200,200,200,0.8);
 }
