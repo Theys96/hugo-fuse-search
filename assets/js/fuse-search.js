@@ -25,6 +25,12 @@ function setupFullscreenSearchbar() {
     }
     return {};
 }
+function setupInlineSearchbar() {
+    if ('fusesearch' in globalThis) {
+        return new InlineSearchbar(globalThis.fusesearch);
+    }
+    return {};
+}
 function setupKeyboardHandler(searchComponent) {
     return new FuseSearchKeyboardHandler(searchComponent);
 }
@@ -138,6 +144,10 @@ class FuseSearchKeyboardHandler {
 /* Base code for multiple searchbar implementations
  */
 class AbstractSearchbar {
+    constructor() {
+        this.closable = true;
+    }
+
     init() {
         this.top_result       = this.element_results.firstChild;
         this.bottom_result    = this.element_results.lastChild;
@@ -178,9 +188,11 @@ class AbstractSearchbar {
 
     // Make the component invisible
     closeSearch() {
-        this.element_main.style.visibility = "hidden";  // hide search box
-        document.activeElement.blur();                  // remove focus from search box 
-        this.visible = false;                           // search not visible
+        if (this.closable) {
+            this.element_main.style.visibility = "hidden";  // hide search box
+            document.activeElement.blur();                  // remove focus from search box 
+            this.visible = false;                           // search not visible
+        }
     }
 
     // Move the focus down between results and the searchbar
@@ -256,7 +268,8 @@ class TopSearchbar extends AbstractSearchbar {
 }
 
 
-/* Class for the fullscreen searchbar component
+/* Class for the top searchbar component 
+ * (absolutely positioned in the page and controlled with the keyboard) 
  */
 class FullscreenSearchbar extends AbstractSearchbar {
 
@@ -285,6 +298,31 @@ class FullscreenSearchbar extends AbstractSearchbar {
     }
 
     toString() { return "FullscreenSearchbar"; }
+}
+
+/* Class for the inline searchbar component 
+ */
+class InlineSearchbar extends AbstractSearchbar {
+
+    constructor(fusesearch) {
+        super();
+        this.search           = fusesearch;
+        this.element_main     = document.getElementById("fuse-search-inline-searchbar");
+        this.element_input    = document.getElementById('fuse-search-inline-searchbar-input');
+        this.element_results  = document.getElementById('fuse-search-inline-searchbar-results');
+        this.closable         = false;
+        super.init();
+        this.initSearch();
+    }
+
+    itemHtml(item) {
+        return '<li><a href="' + item.permalink + '" tabindex="0">' + 
+                '<span class="title">' + item.title + '</span>' + 
+                '<span class="text">' + item.permalink + '</span>' + 
+                '</a></li>';
+    }
+
+    toString() { return "InlineSearchbar"; }
 }
 
 
