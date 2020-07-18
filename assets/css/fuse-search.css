@@ -10,6 +10,10 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 */
 
 
+/* 
+ * topSearchbar 
+ */
+
 #fuse-search-top-searchbar { 
   visibility: hidden;
   position: absolute;
@@ -37,7 +41,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   transform: translate(-50%, 0);
 }
 
-#fuse-search-top-searchbar input#fuse-search-input {
+input#fuse-search-top-searchbar-input {
   width: 100%;
   font-size: 1.5em;
   color: #ccc;
@@ -46,14 +50,14 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   border: none;
 }
 
-#fuse-search-results { 
+#fuse-search-top-searchbar-results { 
   visibility: inherit; 
   width: 100%; 
   margin: 0; 
   padding: 0; 
 }
 
-#fuse-search-results::before {
+#fuse-search-top-searchbar-results::before {
   font-weight: bold;
   color: #fff;
   content: "...";
@@ -62,12 +66,12 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   width: 100%;
 }
 
-#fuse-search-results li { 
+#fuse-search-top-searchbar-results li { 
   list-style: none; 
   margin-left: 0em;
 }
 
-#fuse-search-results a { 
+#fuse-search-top-searchbar-results a { 
   width: 100%;
   display: inline-block;
   text-decoration: none;
@@ -76,12 +80,13 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   padding-bottom: 10px;
 }
 
-#fuse-search-results a:hover, #fuse-search-results a:focus { 
+#fuse-search-top-searchbar-results a:hover, 
+#fuse-search-top-searchbar-results a:focus { 
   color: #fff !important;
   background-color: #666 !important;
 }
 
-#fuse-search-results li .title {
+#fuse-search-top-searchbar-results li .title {
   color: #fff;
   font-size: 1.1em;
   width: 100%;
@@ -89,7 +94,152 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   box-sizing: content-box;
 }
 
-#fuse-search-results li .text {
+#fuse-search-top-searchbar-results li .text {
+  display: inline-block;
+  padding-left: 20px;
+  box-sizing: content-box;
+}
+
+
+/* 
+ * fullscreenSearchbar 
+ */
+#fuse-search-fullscreen-searchbar { 
+  visibility: hidden;
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10vw;
+  z-index: 50;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.fuse-search-top-searchbar-, .fuse-search-top-searchbar-dark {
+  background-color: rgba(0,0,0,0.7);
+}
+.fuse-search-top-searchbar- input#fuse-search-fullscreen-searchbar-input, .fuse-search-top-searchbar-dark input#fuse-search-fullscreen-searchbar-input {
+  color: #ccc;
+  background-color: black;
+}
+.fuse-search-top-searchbar- a#fuse-search-fullscreen-searchbar-close, .fuse-search-top-searchbar-dark a#fuse-search-fullscreen-searchbar-close {
+  color: white;
+  border: 1px solid white;
+  background-color: rgba(0,0,0,0);
+}
+.fuse-search-top-searchbar- a#fuse-search-fullscreen-searchbar-close:hover, .fuse-search-top-searchbar-dark a#fuse-search-fullscreen-searchbar-close:hover {
+  background-color: #666;
+}
+.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results li .title,
+.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results li .title {
+  color: #fff;
+}
+.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a,
+.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a { 
+  color: #777;
+}
+.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-top-searchbar- #fuse-search-fullscreen-searchbar-results a:focus,
+.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-top-searchbar-dark #fuse-search-fullscreen-searchbar-results a:focus { 
+  color: #fff !important;
+  background-color: #666 !important;
+}
+
+
+.fuse-search-top-searchbar-light {
+  background-color: rgba(255,255,255,0.7);
+}
+.fuse-search-top-searchbar-light input#fuse-search-fullscreen-searchbar-input {
+  color: black;
+  background-color: white;
+}
+.fuse-search-top-searchbar-light a#fuse-search-fullscreen-searchbar-close {
+  color: white;
+  border: 1px solid white;
+  background-color: #777;
+}
+.fuse-search-top-searchbar-light a#fuse-search-fullscreen-searchbar-close:hover {
+  background-color: black;
+}
+.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results li .title {
+  color: black;
+}
+.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a { 
+  color: #779;
+}
+.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a:hover, 
+.fuse-search-top-searchbar-light #fuse-search-fullscreen-searchbar-results a:focus { 
+  color: black;
+  background-color: rgba(200,200,200,0.8);
+}
+
+
+input#fuse-search-fullscreen-searchbar-input {
+  width: 80%;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 2px solid #777;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+a#fuse-search-fullscreen-searchbar-close {
+  float: left;
+  font-size: 32px;
+  line-height: 28px;
+  border-radius: 50% 50%;
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+a#fuse-search-fullscreen-searchbar-close:hover {
+  background-color: #666;
+  cursor: pointer;
+}
+
+#fuse-search-fullscreen-searchbar-results { 
+  visibility: inherit; 
+  width: 100%; 
+  margin: 0; 
+  padding: 0; 
+}
+
+#fuse-search-fullscreen-searchbar-results::before {
+  font-weight: bold;
+  color: #fff;
+  content: "...";
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+#fuse-search-fullscreen-searchbar-results li { 
+  list-style: none; 
+  margin-left: 0em;
+}
+
+#fuse-search-fullscreen-searchbar-results a { 
+  width: 100%;
+  display: inline-block;
+  text-decoration: none;
+  padding-bottom: 10px;
+}
+
+#fuse-search-fullscreen-searchbar-results li .title {
+  color: #fff;
+  font-size: 1.1em;
+  width: 100%;
+  display: inline-block;
+  box-sizing: content-box;
+}
+
+#fuse-search-fullscreen-searchbar-results li .text {
   display: inline-block;
   padding-left: 20px;
   box-sizing: content-box;
