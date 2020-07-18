@@ -96,8 +96,8 @@ Currently, there are 3 different "searchbars" included in this project:
   
   ![inline searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/inline-searchbar.png)
   
-  It can be included in a page with the `{{< fuse-search/inline-searchbar >}}` shortcode.
+  It can be included in a page with the `{{< fuse-search/inline-searchbar >}}` shortcode. This components still needs a lot of improvement.
 
-The top-searchbar and fullscreen-searchbar can be controlled with the keyboard if configured as such. Alternatively, the javascript `fusesearchTopSearchbar.initSearch()` and `fusesearchFullscreenSearchbar.initSearch()` can be used to open those searchbars programmatically. 
+The top-searchbar and fullscreen-searchbar can be controlled with the keyboard if configured as such. Alternatively, the javascript `fusesearchTopSearchbar.initSearch()` and `fusesearchFullscreenSearchbar.initSearch()` can be used to open those searchbars programmatically. Note that any element (such as a button) which has the class `fuse-search-element`, can be clicked without the searchbar being closed (regularly, the searchbar is closed when the user clicks outside it). 
 
 
