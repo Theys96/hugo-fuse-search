@@ -18,7 +18,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
   visibility: hidden;
   position: absolute;
   display: block;
-  width: 320px;
+  max-width: 320px;
   z-index: 50;
   padding: 5px;
   box-sizing: content-box;
@@ -244,3 +244,71 @@ a#fuse-search-fullscreen-searchbar-close:hover {
   padding-left: 20px;
   box-sizing: content-box;
 }
+
+
+/* 
+ * inlineSearchbar 
+ */
+
+#fuse-search-inline-searchbar { 
+  visibility: hidden;
+  position: absolute;
+  display: block;
+  max-width: 280px;
+  z-index: 50;
+  padding: 5px;
+  box-sizing: content-box;
+}
+
+input#fuse-search-inline-searchbar-input {
+  width: 100%;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: none;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+#fuse-search-inline-searchbar-results { 
+  visibility: inherit; 
+  width: 100%; 
+  margin: 0; 
+  padding: 0; 
+  margin-top: 10px;
+}
+
+#fuse-search-inline-searchbar-results li { 
+  list-style: none; 
+  margin-left: 15px;
+  padding-left: 5px;
+  border-left: 1px dashed white;
+}
+
+#fuse-search-inline-searchbar-results a { 
+  width: 100%;
+  display: inline-block;
+  text-decoration: none;
+  color: #777;
+  padding-bottom: 10px;
+}
+
+#fuse-search-inline-searchbar-results a:hover, 
+#fuse-search-inline-searchbar-results a:focus { 
+  color: #fff !important;
+}
+
+#fuse-search-inline-searchbar-results li .title {
+  color: #fff;
+  font-size: 1.1em;
+  width: 100%;
+  display: inline-block;
+  box-sizing: content-box;
+}
+
+#fuse-search-inline-searchbar-results li .text {
+  display: inline-block;
+  padding-left: 20px;
+  box-sizing: content-box;
+}
+
+

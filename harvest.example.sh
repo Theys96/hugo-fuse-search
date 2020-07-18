@@ -11,6 +11,7 @@ files=( \
  "layouts/_default/index.json" \
  "layouts/partials/fuse-search/footer.html" \
  "layouts/partials/fuse-search/head.html" \
+ "layouts/shortcodes/fuse-search/inline-searchbar.html"
 )
 
 # Confirmation
