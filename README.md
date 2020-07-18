@@ -82,19 +82,19 @@ Currently, there are 3 different "searchbars" included in this project:
 
 * The `top-searchbar`:
   
-  ![top-searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/top-searchbar.png)
+  ![top searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/top-searchbar.png)
   
   It can be enabled with `params.search.topSearchbar.enabled = true`.
   
 * The `fullscreen-searchbar`:
   
-  ![top-searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/fullscreen-searchbar.png)
+  ![fullscreen searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/fullscreen-searchbar.png)
   
   It can be enabled with `params.search.fullscreenSearchbar = true`.
   
 * The `inline-searchbar`:
   
-  ![top-searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/inline-searchbar.png)
+  ![inline searchbar](https://raw.githubusercontent.com/theys96/hugo-fuse-search/master/meta/inline-searchbar.png)
   
   It can be included in a page with the `{{< fuse-search/inline-searchbar >}}` shortcode.
 
