@@ -12,17 +12,28 @@
 // BASICS
 //
 
-function setupSearch() { globalThis.fusesearch   = new FuseSearch(); }
+function setupSearch() { return globalThis.fusesearch = new FuseSearch(); }
 function setupTopSearchbar() {
     if ('fusesearch' in globalThis) {
-        new TopSearchbar(globalThis.fusesearch);
+        return new TopSearchbar(globalThis.fusesearch);
     }
+    return {};
+}
+function setupFullscreenSearchbar() {
+    if ('fusesearch' in globalThis) {
+        return new FullscreenSearchbar(globalThis.fusesearch);
+    }
+    return {};
+}
+function setupKeyboardHandler(searchComponent) {
+    return new FuseSearchKeyboardHandler(searchComponent);
 }
 
 
 // ==========================================
 // CLASSES
 //
+
 
 /* Core search class containing logic for the search engine */
 class FuseSearch {
@@ -63,57 +74,87 @@ class FuseSearch {
             fs.fuse = new Fuse(data, fs.fuseConfig);
         });
     }
+
+    toString() { return "FuseSearch"; }
 }
 
-/* Class for the top searchbar component 
- * (absolutely positioned in the page and controlled with the keyboard) 
+
+/* Gives one search component keyboard functionality
  */
-class TopSearchbar {
-    constructor(fusesearch) {
-        this.search           = fusesearch;
-        this.element_main     = document.getElementById("fuse-search-top-searchbar");
-        this.element_input    = document.getElementById('fuse-search-input');
-        this.element_results  = document.getElementById('fuse-search-results');
+class FuseSearchKeyboardHandler {
+
+    constructor(component) {
+        this.searchComponent = component;
+        if (this.validateComponent() == false) {
+            console.log("hugo-fuse-search: KeyboardHandler not initialized correctly: Invalid search component " + this.searchComponent.toString() + ".");
+            console.log(component);
+            return;
+        } else {
+            // Listen for keyboard commands
+            document.addEventListener('keydown', (e) => this.keyboardHandler(e, this.searchComponent));
+
+            console.log("hugo-fuse-search: KeyboardHandler initiated with search component " + this.searchComponent.toString() + ".");
+        }
+    }
+
+    // This component is controlled with the keyboard:
+    keyboardHandler(e, component) {
+        if (event.metaKey && event.which === 191) { // Cmd + /
+            component.initSearch();
+        } else {
+            switch(e.keyCode) {
+                case 27: // ESC
+                    component.closeSearch();
+                    break;
+
+                case 40: // DOWN
+                    component.navigateDown(e);
+                    break;
+
+                case 38: // UP
+                    component.navigateUp(e);
+                    break;
+            }
+        }
+    }
+
+    // Quick live check on the compatibility of the search component
+    // with this keyboard handler
+    // It must have the 5 controlled functions:
+    //  - initSearch, openSearch, closeSearch, navigateUp, navigateDown
+    validateComponent() {
+        let requiredFunctions = ['initSearch', 'openSearch', 'closeSearch', 'navigateUp', 'navigateDown'];
+        for (var f in requiredFunctions) {
+            if (typeof(this.searchComponent[requiredFunctions[f]]) != "function") {
+            return false; }
+        }
+        return true;
+    }
+
+    toString() { return "FuseSearchKeyboardHandler"; }
+}
+
+
+/* Base code for multiple searchbar implementations
+ */
+class AbstractSearchbar {
+    init() {
         this.top_result       = this.element_results.firstChild;
         this.bottom_result    = this.element_results.lastChild;
         this.visible          = false;
         this.resultsAvailable = false;
-
-        // Listen for keyboard commands
-        document.addEventListener('keydown', (e) => this.keyboardHandler(e, this));
 
         // Renew search whenever the user types
         this.element_input.addEventListener('keyup', (e) => { this.executeSearch(this.element_input.value); });
 
         // Close the searchbar when the user clicks outside it
         document.addEventListener('click', (e) => {
-            if (!this.element_main.contains(e.target) && this.visible) {
-                this.closeSearchBox()
+            if (!e.target.classList.contains("fuse-search-element") && !this.element_main.contains(e.target) && this.visible) {
+                this.closeSearch()
             }
         });
 
-        console.log("hugo-fuse-search: TopSearchbar initiated.");
-    }
-
-    // This component is controlled with the keyboard:
-    keyboardHandler(e, topSearchbar) {
-        if (event.metaKey && event.which === 191) { // Cmd + /
-            topSearchbar.initSearch();
-        } else {
-            switch(e.keyCode) {
-                case 27: // ESC
-                    topSearchbar.closeSearchBox();
-                    break;
-
-                case 40: // DOWN
-                    topSearchbar.navigateDown(e);
-                    break;
-
-                case 38: // UP
-                    topSearchbar.navigateUp(e);
-                    break;
-            }
-        }
+        console.log("hugo-fuse-search: " + this.toString() + " initiated.");
     }
 
     // Open the search component, check if fuse-search is
@@ -122,21 +163,21 @@ class TopSearchbar {
         this.search.init();
 
         if (this.visible) {
-            this.closeSearchBox();
+            this.closeSearch();
         } else {
-            this.openSearchBox();
+            this.openSearch();
         }
     }
 
     // Make the component visible
-    openSearchBox() {
+    openSearch() {
         this.element_main.style.visibility = "visible"; // show search box
         this.element_input.focus();                     // put focus in input box so you can just start typing
         this.visible = true;                            // search visible
     }
 
     // Make the component invisible
-    closeSearchBox() {
+    closeSearch() {
         this.element_main.style.visibility = "hidden";  // hide search box
         document.activeElement.blur();                  // remove focus from search box 
         this.visible = false;                           // search not visible
@@ -175,11 +216,7 @@ class TopSearchbar {
                 let result = results[item];
                 if ('item' in result) {
                     let item = result.item;
-                    searchitems +=
-                        '<li><a href="' + item.permalink + '" tabindex="0">' + 
-                        '<span class="title">' + item.title + '</span>' + 
-                        '<span class="text">' + item.permalink + '</span>' + 
-                        '</a></li>';
+                    searchitems += this.itemHtml(item);
                 }
             }
             this.resultsAvailable = true;
@@ -191,6 +228,64 @@ class TopSearchbar {
             this.bottom_result = this.element_results.lastChild;
         }
     }
+}
+
+
+/* Class for the top searchbar component 
+ * (absolutely positioned in the page and controlled with the keyboard) 
+ */
+class TopSearchbar extends AbstractSearchbar {
+
+    constructor(fusesearch) {
+        super();
+        this.search           = fusesearch;
+        this.element_main     = document.getElementById("fuse-search-top-searchbar");
+        this.element_input    = document.getElementById('fuse-search-top-searchbar-input');
+        this.element_results  = document.getElementById('fuse-search-top-searchbar-results');
+        super.init();
+    }
+
+    itemHtml(item) {
+        return '<li><a href="' + item.permalink + '" tabindex="0">' + 
+                '<span class="title">' + item.title + '</span>' + 
+                '<span class="text">' + item.permalink + '</span>' + 
+                '</a></li>';
+    }
+
+    toString() { return "TopSearchbar"; }
+}
+
+
+/* Class for the top searchbar component 
+ * (absolutely positioned in the page and controlled with the keyboard) 
+ */
+class FullscreenSearchbar extends AbstractSearchbar {
+
+    constructor(fusesearch) {
+        super();
+        this.search           = fusesearch;
+        this.element_main     = document.getElementById("fuse-search-fullscreen-searchbar");
+        this.element_input    = document.getElementById('fuse-search-fullscreen-searchbar-input');
+        this.element_results  = document.getElementById('fuse-search-fullscreen-searchbar-results');
+        this.element_close    = document.getElementById('fuse-search-fullscreen-searchbar-close');
+        super.init();
+
+        // Close the searchbar when the user clicks the close button
+        this.element_close.addEventListener('click', (e) => {
+            if (this.visible) {
+                this.closeSearch()
+            }
+        });
+    }
+
+    itemHtml(item) {
+        return '<li><a href="' + item.permalink + '" tabindex="0">' + 
+                '<span class="title">' + item.title + '</span>' + 
+                '<span class="text">' + item.permalink + '</span>' + 
+                '</a></li>';
+    }
+
+    toString() { return "FullscreenSearchbar"; }
 }
 
 

@@ -12,10 +12,26 @@
 <!-- Hugo fuse-search topSearchbar -->
 {{- if eq (.Param "search.topSearchbar.enabled") true -}}
 <div id="fuse-search-top-searchbar" class="fuse-search-top-searchbar-{{ .Param "search.topSearchbar.position" }}">
-  <input id="fuse-search-input" tabindex="0" placeholder="search">
-  <ul id="fuse-search-results"></ul>
+  <input id="fuse-search-top-searchbar-input" tabindex="0" placeholder="search">
+  <ul id="fuse-search-top-searchbar-results"></ul>
 </div>
-<script>setupTopSearchbar();</script>
+<script>fusesearchTopSearchbar = setupTopSearchbar();</script>
+{{- if eq (.Param "search.keyboardControlled") "topSearchbar" -}}
+<script>setupKeyboardHandler(fusesearchTopSearchbar);</script>
+{{- end -}}
+{{- end -}}
+
+<!-- Hugo fuse-search topSearchbar -->
+{{- if eq (.Param "search.fullscreenSearchbar.enabled") true -}}
+<div id="fuse-search-fullscreen-searchbar" class="fuse-search-top-searchbar-{{ .Param "search.fullscreenSearchbar.color" }}">
+  <a id="fuse-search-fullscreen-searchbar-close">×</a>
+  <input id="fuse-search-fullscreen-searchbar-input" tabindex="0" placeholder="search">
+  <ul id="fuse-search-fullscreen-searchbar-results"></ul>
+</div>
+<script>fusesearchFullscreenSearchbar = setupFullscreenSearchbar();</script>
+{{- if eq (.Param "search.keyboardControlled") "fullscreenSearchbar" -}}
+<script>setupKeyboardHandler(fusesearchFullscreenSearchbar);</script>
+{{- end -}}
 {{- end -}}
 
 {{- end -}}
