@@ -256,8 +256,7 @@ class TopSearchbar extends AbstractSearchbar {
 }
 
 
-/* Class for the top searchbar component 
- * (absolutely positioned in the page and controlled with the keyboard) 
+/* Class for the fullscreen searchbar component
  */
 class FullscreenSearchbar extends AbstractSearchbar {
 
