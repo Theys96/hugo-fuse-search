@@ -29,7 +29,6 @@ Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navi
    - At the end but within the `<body>`:
      
      ```
-     {{- partial "fuse-search/top-searchbar.html" . -}}
      {{- partial "fuse-search/footer.html" . -}}
      ```
   
@@ -41,9 +40,13 @@ Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navi
    
    [params.search]
    enabled = true
+   keyboardControlled: topSearchbar
+   
+   [params.search.topSearchbar]
+   enabled = true
    ```
 	
-	The `outputs.home` setting is set to instruct Hugo to output a `index.json` file which is used by the search engine to index the website. The `search.enabled` parameter can be used to turn search on and off. This parameter can also be set in front matter to allow for search on a per-page basis.
+	The `outputs.home` setting is set to instruct Hugo to output a `index.json` file which is used by the search engine to index the website. The `search.enabled` parameter can be used to turn search on and off. This parameter can also be set in front matter to allow for search on a per-page basis. The `search.keyboardControlled` parameter configures that the top searchbar can be controlled with the keyboard (e.g. using the Cmd+/ command and the arrow keys).
 	
 5. (optional) Further configure hugo-fuse-search:
 
