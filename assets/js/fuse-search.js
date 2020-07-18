@@ -1,7 +1,7 @@
 /*
- * Author: Thijs Havinga
- * as part of the hugo-fuse-search project
+ * Part of the hugo-fuse-search project
  * https://github.com/theys96/hugo-fuse-search/
+ * License: https://github.com/Theys96/hugo-fuse-search/blob/master/LICENSE
  * 
  * Note: contains parts of code still remaining from the original code this
  * program is based on. Author: Craig Mod.
