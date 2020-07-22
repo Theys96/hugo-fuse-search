@@ -1,0 +1,15 @@
+{
+  "name": "hugo-fuse-search-js-tests",
+  "version": "1.0.0",
+  "description": "Tests on the JavaScript in this hugo-fuse-search project (https://github.com/Theys96/hugo-fuse-search)",
+  "main": "index.js",
+  "repository": "https://github.com/Theys96/hugo-fuse-search",
+  "author": "Thijs Havinga",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.1.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

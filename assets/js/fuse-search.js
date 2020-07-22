@@ -358,3 +358,10 @@ function fetchJSONFile(path, callback, errorCallback) {
     httpRequest.open('GET', path);
     httpRequest.send(); 
 }
+
+
+// EXPORTS
+if (module) {
+    module.exports = { setupSearch }
+}
+
