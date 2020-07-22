@@ -220,8 +220,9 @@ class AbstractSearchbar {
 
     // Run the search (which happens whenever the user types)
     executeSearch(term) {
+        var results;
         try {
-            let results = this.search.fuse.search(term);  // the actual query being run using fuse.js
+            results = this.search.fuse.search(term);  // the actual query being run using fuse.js
         } catch (err) {
             if (err instanceof TypeError) {
                 console.log("hugo-fuse-search: search failed because Fuse.js was not instantiated properly.")
