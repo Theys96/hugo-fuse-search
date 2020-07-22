@@ -78,6 +78,9 @@ class FuseSearch {
                 return page.lang == document.documentElement.lang;
             })
             fs.fuse = new Fuse(data, fs.fuseConfig);
+            console.log("hugo-fuse-search: Fuse.js was succesfuly instatiated.");
+        }, function(status, statusText) {
+            console.log("hugo-fuse-search: retrieval of index file was unsuccesful (\"" + fs.index + "\": " + status + " - " + statusText + ")")
         });
     }
 
@@ -217,7 +220,16 @@ class AbstractSearchbar {
 
     // Run the search (which happens whenever the user types)
     executeSearch(term) {
-        let results = this.search.fuse.search(term);  // the actual query being run using fuse.js
+        try {
+            let results = this.search.fuse.search(term);  // the actual query being run using fuse.js
+        } catch (err) {
+            if (err instanceof TypeError) {
+                console.log("hugo-fuse-search: search failed because Fuse.js was not instantiated properly.")
+            } else {
+                console.log("hugo-fuse-search: search failed: " + err)
+            }
+            return;
+        }
         let searchitems = '';
 
         if (results.length === 0) {  // no results based on what was typed into the input box
@@ -331,13 +343,15 @@ class InlineSearchbar extends AbstractSearchbar {
 //
 
 /* Fetches JSON file and returns the parsed contents in the callback */
-function fetchJSONFile(path, callback) {
+function fetchJSONFile(path, callback, errorCallback) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
     if (httpRequest.readyState === 4) {
             if (httpRequest.status === 200) {
                 var data = JSON.parse(httpRequest.responseText);
                 if (callback) { callback(data); }
+            } else {
+                if (errorCallback) { errorCallback(httpRequest.status, httpRequest.statusText) }
             }
         }
     };
