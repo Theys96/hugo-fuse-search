@@ -74,9 +74,9 @@ class FuseSearch {
     loadSearch() {
         let fs = this;
         fetchJSONFile(fs.index, function(data) {
-            data = data.filter(function(page) {
-                return page.lang == document.documentElement.lang;
-            })
+            //data = data.filter(function(page) {
+            //    return page.lang == document.documentElement.lang;
+            //})
             fs.fuse = new Fuse(data, fs.fuseConfig);
             console.log("hugo-fuse-search: Fuse.js was succesfuly instatiated.");
         }, function(status, statusText) {
