@@ -42,7 +42,7 @@ Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navi
    
    [params.search]
    enabled = true
-   keyboardControlled: topSearchbar
+   keyboardControlled = "topSearchbar"
    
    [params.search.topSearchbar]
    enabled = true
