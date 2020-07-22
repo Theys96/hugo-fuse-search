@@ -72,6 +72,9 @@ class FuseSearch {
     async loadSearch() {
         let fs = this;
         return fetchJSONFile(fs.index, function(data) {
+            //data = data.filter(function(page) {
+            //    return page.lang == document.documentElement.lang;
+            //})
             fs.fuse = new Fuse(data, fs.fuseConfig);
             fs.isInit = true;
             console.log("hugo-fuse-search: Fuse.js was succesfuly instantiated.");
