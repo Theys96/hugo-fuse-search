@@ -64,21 +64,17 @@ class FuseSearch {
     // starts searching.
     init() {
         if (!this.isInit) {
-            this.loadSearch();
-            this.isInit = true;
-            console.log("hugo-fuse-search: fuse-search initiated.");
+            return this.loadSearch();
         }
     }
 
     // Loads the JSON site index and creates the Fuse.io engine object for search
-    loadSearch() {
+    async loadSearch() {
         let fs = this;
-        fetchJSONFile(fs.index, function(data) {
-            data = data.filter(function(page) {
-                return page.lang == document.documentElement.lang;
-            })
+        return fetchJSONFile(fs.index, function(data) {
             fs.fuse = new Fuse(data, fs.fuseConfig);
-            console.log("hugo-fuse-search: Fuse.js was succesfuly instatiated.");
+            fs.isInit = true;
+            console.log("hugo-fuse-search: Fuse.js was succesfuly instantiated.");
         }, function(status, statusText) {
             console.log("hugo-fuse-search: retrieval of index file was unsuccesful (\"" + fs.index + "\": " + status + " - " + statusText + ")")
         });
@@ -345,19 +341,23 @@ class InlineSearchbar extends AbstractSearchbar {
 
 /* Fetches JSON file and returns the parsed contents in the callback */
 function fetchJSONFile(path, callback, errorCallback) {
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === 4) {
-            if (httpRequest.status === 200) {
-                var data = JSON.parse(httpRequest.responseText);
-                if (callback) { callback(data); }
-            } else {
-                if (errorCallback) { errorCallback(httpRequest.status, httpRequest.statusText) }
+    return new Promise(function (resolve, reject) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === 4) {
+                if (httpRequest.status === 200) {
+                    var data = JSON.parse(httpRequest.responseText);
+                    if (callback) { callback(data); }
+                    resolve();
+                } else {
+                    if (errorCallback) { errorCallback(httpRequest.status, httpRequest.statusText) }
+                    reject();
+                }
             }
-        }
-    };
-    httpRequest.open('GET', path);
-    httpRequest.send(); 
+        };
+        httpRequest.open('GET', path);
+        httpRequest.send();
+    })
 }
 
 

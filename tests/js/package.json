@@ -11,5 +11,8 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "jest": {
+    "testURL": "http://localhost:1313"
   }
 }
