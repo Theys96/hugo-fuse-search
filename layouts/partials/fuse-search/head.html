@@ -1,6 +1,6 @@
-{{ if eq (.Param "search.enabled") true }}
+{{- if eq (.Param "search.enabled") true -}}
 
-{{ $style := resources.Get "css/fuse-search.css" | resources.Minify | resources.Fingerprint }}
-<link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" type="text/css">
+{{ $style := resources.Get "scss/fuse-search.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+	<link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" type="text/css">
 
-{{- end }}
+{{- end -}}
