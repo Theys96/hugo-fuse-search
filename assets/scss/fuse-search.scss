@@ -1,0 +1,343 @@
+/*
+ * Part of the hugo-fuse-search project
+ * https://github.com/theys96/hugo-fuse-search/
+ * License: https://github.com/Theys96/hugo-fuse-search/blob/master/LICENSE
+ * 
+ * Note: contains parts of code still remaining from the original code this
+ * program is based on. Author: Craig Mod.
+ * https://gist.github.com/cmod/5410eae147e4318164258742dd053993
+*/
+
+
+/* 
+ * topSearchbar 
+ */
+$topSearchbar: fuse-search-top-searchbar;
+
+##{$topSearchbar} { 
+  visibility: hidden;
+  position: absolute;
+  display: block;
+  width: 320px;
+  z-index: 50;
+  padding: 5px;
+  box-sizing: content-box;
+  background-color: rgba(0,0,0,0.8);
+
+  input##{$topSearchbar}-input {
+    width: 100%;
+    font-size: 1.5em;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0);
+    border: none;
+  }
+
+  ##{$topSearchbar}-results::before {
+    font-weight: bold;
+    color: #fff;
+    content: "...";
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+  }
+
+  ##{$topSearchbar}-results { 
+    visibility: inherit; 
+    width: 100%; 
+    margin: 0; 
+    padding: 0; 
+
+    li { 
+      list-style: none; 
+      margin-left: 0em;
+
+      .title {
+        color: #fff;
+        font-size: 1.1em;
+        width: 100%;
+        display: inline-block;
+        box-sizing: content-box;
+      }
+
+      .text {
+        display: inline-block;
+        padding-left: 20px;
+        box-sizing: content-box;
+      }
+
+      a { 
+        width: 100%;
+        display: inline-block;
+        text-decoration: none;
+        color: #777;
+        padding-bottom: 10px;
+      }
+
+      a:hover, a:focus { 
+        color: #fff !important;
+        background-color: #777 !important;
+      }
+    }
+  }
+}
+
+/* Positioning */
+.#{$topSearchbar}-, .#{$topSearchbar}-right {
+  right: 5px;
+  top: 5px;
+}
+
+.#{$topSearchbar}-left {
+  left: 5px;
+  top: 5px;
+}
+
+.#{$topSearchbar}-center {
+  top: 5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+
+
+/* 
+ * fullscreenSearchbar 
+ */
+$fullscreenSearchbar: fuse-search-fullscreen-searchbar;
+
+##{$fullscreenSearchbar} { 
+  visibility: hidden;
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10vw;
+  z-index: 50;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+input##{$fullscreenSearchbar}-input {
+  width: 80%;
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 2px solid #777;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+a##{$fullscreenSearchbar}-close {
+  float: left;
+  font-size: 32px;
+  line-height: 28px;
+  border-radius: 50% 50%;
+  display: block;
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+a##{$fullscreenSearchbar}-close:hover {
+  background-color: #666;
+  cursor: pointer;
+}
+
+##{$fullscreenSearchbar}-results { 
+  visibility: inherit; 
+  width: 100%; 
+  margin: 0; 
+  margin-top: 10px;
+  padding: 0; 
+
+  li { 
+    list-style: none; 
+    margin-left: 0em;
+
+    .title {
+      color: #fff;
+      font-size: 1.1em;
+      width: 100%;
+      display: inline-block;
+      box-sizing: content-box;
+    }
+
+    .text {
+      display: inline-block;
+      padding-left: 20px;
+      box-sizing: content-box;
+    }
+  }
+
+  a { 
+    width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    padding-bottom: 10px;
+  }
+}
+
+##{$fullscreenSearchbar}-results::before {
+  font-weight: bold;
+  color: #fff;
+  content: "...";
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+/* fullscreen-searchbar Themes */
+.#{$fullscreenSearchbar}-, .#{$fullscreenSearchbar}-dark {
+  background-color: rgba(0,0,0,0.85);
+
+  input##{$fullscreenSearchbar}-input {
+    color: #fff;
+    background-color: black;
+  }
+
+  a##{$fullscreenSearchbar}-close {
+    color: white;
+    border: 1px solid white;
+    background-color: rgba(0,0,0,0);
+  }
+
+  a##{$fullscreenSearchbar}-close:hover {
+    background-color: #777;
+  }
+
+  ##{$fullscreenSearchbar}-results { 
+    li .title {
+      color: #fff;
+    }
+
+    a {
+      color: #777;
+    }
+
+    a:hover, a:focus {
+      color: #fff !important;
+      background-color: #333 !important;
+    }
+  }
+}
+
+.#{$fullscreenSearchbar}-light {
+  background-color: rgba(255,255,255,0.85);
+
+  input##{$fullscreenSearchbar}-input {
+    color: black;
+    background-color: white;
+  }
+
+  a##{$fullscreenSearchbar}-close {
+    color: white;
+    border: 1px solid white;
+    background-color: #777;
+  }
+
+  a##{$fullscreenSearchbar}-close:hover {
+    background-color: black;
+  }
+
+  ##{$fullscreenSearchbar}-results {
+
+
+    li .title {
+      color: black;
+      font-weight: bold;
+    }
+
+    a {
+      color: #444;
+    }
+
+    a:hover, a:focus {
+      color: black;
+      background-color: white;
+    }
+  }
+
+  ##{$fullscreenSearchbar}-results::before {
+    color: black;
+  }
+}
+
+
+
+
+/* 
+ * inlineSearchbar 
+ */
+$inlineSearchbar: fuse-search-inline-searchbar;
+
+##{$inlineSearchbar} { 
+  visibility: hidden;
+  position: absolute;
+  display: block;
+  width: 280px;
+  z-index: 50;
+  padding: 5px;
+  box-sizing: content-box;
+
+  input##{$inlineSearchbar}-input {
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: 1px solid #333;
+    padding: 3px;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+
+  ##{$inlineSearchbar}-results { 
+    visibility: inherit; 
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 0;
+    background-color: #333;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
+    li { 
+      list-style: none; 
+      margin-left: 15px;
+      padding-left: 5px;
+      border-left: 1px dashed white;
+      padding-top: 6px;
+      padding-bottom: 6px;
+
+      .title {
+        color: #fff;
+        font-size: 1.1em;
+        width: 100%;
+        display: inline-block;
+        box-sizing: content-box;
+      }
+
+      .text {
+        display: inline-block;
+        padding-left: 20px;
+        box-sizing: content-box;
+      }
+
+      a { 
+        width: 100%;
+        display: inline-block;
+        text-decoration: none;
+        color: #777;
+      }
+
+      a:hover, a:focus { 
+        color: #fff !important;
+      }
+    }
+
+    li:hover {
+      background-color: #222;
+    }
+  }
+}
+
+

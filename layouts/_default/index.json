@@ -1,7 +1,12 @@
-{{ if eq (.Param "search.enabled") true }}
+{{ if eq ($.Param "search.enabled") true }}
 {{- $.Scratch.Add "index" slice -}}
 {{- range (where .Site.AllPages "Kind" "page") -}}
-    {{- $.Scratch.Add "index" (dict "permalink" .RelPermalink "lang" .Language.Lang "title" .Title "contents" .Plain "tags" .Params.tags "categories" .Params.categories ) -}}
+	{{- $page := . -}}
+	{{- $entry := dict "permalink" .RelPermalink "lang" .Language.Lang "title" .Title "contents" .Plain -}}
+	{{- range ($.Param "search.searchableParams") -}}
+		{{- $entry = merge $entry (dict . ($page.Param .)) }}
+	{{- end -}}
+    {{- $.Scratch.Add "index" $entry -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
 {{- end -}}
