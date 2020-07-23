@@ -3,4 +3,5 @@ node_js:
   - 14
 script: 
 - cd tests/js/
+- yarn install
 - yarn test
