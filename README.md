@@ -1,4 +1,4 @@
-# Hugo fuse-search
+# Hugo fuse-search [![Build Status](https://travis-ci.org/Theys96/hugo-fuse-search.svg?branch=master)](https://travis-ci.org/Theys96/hugo-fuse-search)
 
 Drop-in ready-to-use search solution for static site generator [Hugo](https://github.com/gohugoio/hugo).
 
