@@ -53,7 +53,7 @@ describe('once initialized', () => {
 	});
 
 	test('search for \'guide\' yields 1 result', () => {
-		expect(globalThis.fusesearch.fuse.search("guide").length).toBe(2)
+		expect(globalThis.fusesearch.fuse.search("guide").length).toBe(1)
 	});
 
 })
