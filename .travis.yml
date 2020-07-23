@@ -1,2 +1,4 @@
 language: node_js
-script: cd tests/js/ && npm install && npm test
+script: 
+- cd tests/js/
+- yarn test
