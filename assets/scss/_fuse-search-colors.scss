@@ -1,0 +1,69 @@
+/*
+ * Part of the hugo-fuse-search project
+ * https://github.com/theys96/hugo-fuse-search/
+ * License: https://github.com/Theys96/hugo-fuse-search/blob/master/LICENSE
+*/
+
+
+
+/*
+ * INLINE SEARCHBAR COLORS
+ */
+$inlineS-background:               rgba(0,0,0,0);
+$inlineS-inputText:                black;
+$inlineS-inputBackground:          white;
+$inlineS-resultsTitle:             #fff;
+$inlineS-resultsText:              #777;
+$inlineS-resultsText-hovered:      #fff;
+$inlineS-resultsBackground:        #333;
+$inlineS-hoveredResultBackground:  #222;
+$inlineS-resultsRuler:             1px dashed white;
+
+
+
+/*
+ * TOP SEARCHBAR COLORS
+ */
+$topS-background:               rgba(0,0,0,0.8);
+$topS-inputText:                #eee;
+$topS-inputBackground:          rgba(0,0,0,0);
+$topS-resultsTitle:             #fff;
+$topS-resultsText:              #777;
+$topS-resultsText-hovered:      #fff;
+$topS-hoveredResultbackground:  #777;
+
+
+
+/*
+ * FULLSCREEN SEARCHBAR COLORS
+ */
+
+// DARK THEME
+$fsS-dark-background:                   rgba(0,0,0,0.85);
+$fsS-dark-inputText:                    #fff;
+$fsS-dark-inputBackground:              black;
+$fsS-dark-closeBtn-icon:                white;
+$fsS-dark-closeBtn-background:          rgba(0,0,0,0);
+$fsS-dark-closeBtn-border:              1px solid white;
+$fsS-dark-closeBtn-icon-hovered:        white;
+$fsS-dark-closeBtn-background-hovered:  #777;
+$fsS-dark-closeBtn-border-hovered:      1px solid white;
+$fsS-dark-resultsTitle:                 #fff;
+$fsS-dark-resultsText:                  #777;
+$fsS-dark-resultsText-hovered:          #fff;
+$fsS-dark-hoveredResultbackground:      #333;
+
+// LIGHT THEME
+$fsS-light-background:                   rgba(255,255,255,0.85);
+$fsS-light-inputText:                    black;
+$fsS-light-inputBackground:              white;
+$fsS-light-closeBtn-icon:                white;
+$fsS-light-closeBtn-background:          #777;
+$fsS-light-closeBtn-border:              1px solid white;
+$fsS-light-closeBtn-icon-hovered:        white;
+$fsS-light-closeBtn-background-hovered:  black;
+$fsS-light-closeBtn-border-hovered:      1px solid white;
+$fsS-light-resultsTitle:                 black;
+$fsS-light-resultsText:                  #444;
+$fsS-light-resultsText-hovered:          black;
+$fsS-light-hoveredResultbackground:      white;

@@ -7,6 +7,7 @@
 hugoProject="../some-hugo-project/themes/some-theme/"
 files=( \
  "assets/scss/fuse-search.scss" \
+ "assets/scss/_fuse-search-colors.scss" \
  "assets/js/fuse-search.js" \
  "layouts/_default/index.json" \
  "layouts/partials/fuse-search/footer.html" \

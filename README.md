@@ -2,8 +2,8 @@
 
 Drop-in ready-to-use search solution for static site generator [Hugo](https://github.com/gohugoio/hugo).
 
-The goal of this project is a ready-to-use package to paste into your Hugo theme to allow for dynamic search 
-functionality within your Hugo website. Various customizable components will be included.
+The goal of this project is to create a ready-to-use package to paste into your Hugo theme to allow for dynamic search 
+functionality within your Hugo website. Various customizable components are included.
 
 The basis of this project is [this GitHub Gist](https://gist.github.com/cmod/5410eae147e4318164258742dd053993) by Craig Mod.
 
@@ -16,6 +16,8 @@ The current implementation is heavily under construction. It includes for exampl
 Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navigate the results (or just click them).
 
 ## Installation
+
+[(Wiki page)](https://github.com/Theys96/hugo-fuse-search/wiki/Installation)
 
 1. First, download or clone this repository. 
 2. Merge the `assets` and `layouts` folder from this repository into your active Hugo theme or project. Merging folders can be done on Mac with e.g. `ditto hugo-fuse-search/layouts <your-theme>/layouts` and on Linux with `rsync -a hugo-fuse-search/layouts <your-theme>/layouts`.
@@ -48,33 +50,7 @@ Here, to open the searchbar enter Cmd+/ and use the arrow keys and Enter to navi
    enabled = true
    ```
 	
-	The `outputs.home` setting is set to instruct Hugo to output a `index.json` file which is used by the search engine to index the website. The `search.enabled` parameter can be used to turn search on and off. This parameter can also be set in front matter to allow for search on a per-page basis. The `search.keyboardControlled` parameter configures that the top searchbar can be controlled with the keyboard (e.g. using the Cmd+/ command and the arrow keys).
-	
-2. (optional) Further configure hugo-fuse-search:
-
-   ```
-   [params.search.topSearchbar]
-   position = "center"
-   ```
-   
-   Of course, you can also customize the CSS that is shipped with hugo-fuse-search.
-
-## Options
-
-Currently, the full possible configuration looks like the the following (pseudo YAML).
-
-```
-params:
-  search: 
-    enabled: true / false
-    keyboardControlled: topSearchbar / fullscreenSearchbar
-    topSearchbar:
-      enabled: true / false
-      position: left / center / right
-    fullscreenSearchbar:
-      enabled: true / false
-      color: dark / light
-```
+For more configuration specifics, check out the Wiki page on [Configuration and Customization](https://github.com/Theys96/hugo-fuse-search/wiki/Configuration-and-Customization).
 
 ## Searchbars
 
