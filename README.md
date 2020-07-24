@@ -73,7 +73,7 @@ params:
       position: left / center / right
     fullscreenSearchbar:
       enabled: true / false
-      color: dark / light
+      theme: dark / light
 ```
 
 ## Searchbars

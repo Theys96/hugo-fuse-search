@@ -8,6 +8,7 @@
  * https://gist.github.com/cmod/5410eae147e4318164258742dd053993
 */
 
+@import 'fuse-search-colors';
 
 /* 
  * topSearchbar 
@@ -22,20 +23,20 @@ $topSearchbar: fuse-search-top-searchbar;
   z-index: 50;
   padding: 5px;
   box-sizing: content-box;
-  background-color: rgba(0,0,0,0.8);
+  background-color: $topS-background;
 
   input##{$topSearchbar}-input {
     width: 100%;
     font-size: 1.5em;
-    color: white;
+    color: $topS-inputText;
     font-weight: bold;
-    background-color: rgba(0,0,0,0);
+    background-color: $topS-inputBackground;
     border: none;
   }
 
   ##{$topSearchbar}-results::before {
     font-weight: bold;
-    color: #fff;
+    color: $topS-resultsTitle;
     content: "...";
     text-align: center;
     display: inline-block;
@@ -53,7 +54,7 @@ $topSearchbar: fuse-search-top-searchbar;
       margin-left: 0em;
 
       .title {
-        color: #fff;
+        color: $topS-resultsTitle;
         font-size: 1.1em;
         width: 100%;
         display: inline-block;
@@ -70,13 +71,13 @@ $topSearchbar: fuse-search-top-searchbar;
         width: 100%;
         display: inline-block;
         text-decoration: none;
-        color: #777;
+        color: $topS-resultsText;
         padding-bottom: 10px;
       }
 
       a:hover, a:focus { 
-        color: #fff !important;
-        background-color: #777 !important;
+        color: $topS-resultsText-hovered !important;
+        background-color: $topS-hoveredResultbackground !important;
       }
     }
   }
@@ -189,77 +190,85 @@ a##{$fullscreenSearchbar}-close:hover {
 
 /* fullscreen-searchbar Themes */
 .#{$fullscreenSearchbar}-, .#{$fullscreenSearchbar}-dark {
-  background-color: rgba(0,0,0,0.85);
+  background-color: $fsS-dark-background;
 
   input##{$fullscreenSearchbar}-input {
-    color: #fff;
-    background-color: black;
+    color: $fsS-dark-inputText;
+    background-color: $fsS-dark-inputBackground;
   }
 
   a##{$fullscreenSearchbar}-close {
-    color: white;
-    border: 1px solid white;
-    background-color: rgba(0,0,0,0);
+    color: $fsS-dark-closeBtn-icon;
+    border: $fsS-dark-closeBtn-border;
+    background-color: $fsS-dark-closeBtn-background;
   }
 
   a##{$fullscreenSearchbar}-close:hover {
-    background-color: #777;
+    color: $fsS-dark-closeBtn-icon-hovered;
+    border: $fsS-dark-closeBtn-border-hovered;
+    background-color: $fsS-dark-closeBtn-background-hovered;
   }
 
   ##{$fullscreenSearchbar}-results { 
     li .title {
-      color: #fff;
+      color: $fsS-dark-resultsTitle;
     }
 
     a {
-      color: #777;
+      color: $fsS-dark-resultsText;
     }
 
     a:hover, a:focus {
-      color: #fff !important;
-      background-color: #333 !important;
+      color: $fsS-dark-resultsText-hovered !important;
+      background-color: $fsS-dark-hoveredResultbackground !important;
     }
+  }
+
+  ##{$fullscreenSearchbar}-results::before {
+    color: $fsS-dark-resultsTitle;
   }
 }
 
 .#{$fullscreenSearchbar}-light {
-  background-color: rgba(255,255,255,0.85);
+  background-color: $fsS-light-background;
 
   input##{$fullscreenSearchbar}-input {
-    color: black;
-    background-color: white;
+    color: $fsS-light-inputText;
+    background-color: $fsS-light-inputBackground;
   }
 
   a##{$fullscreenSearchbar}-close {
-    color: white;
-    border: 1px solid white;
-    background-color: #777;
+    color: $fsS-light-closeBtn-icon;
+    border: 1px solid $fsS-light-closeBtn-border;
+    background-color: $fsS-light-closeBtn-background;
   }
 
   a##{$fullscreenSearchbar}-close:hover {
-    background-color: black;
+    color: $fsS-light-closeBtn-icon-hovered;
+    border: 1px solid $fsS-light-closeBtn-border-hovered;
+    background-color: $fsS-light-closeBtn-background-hovered;
   }
 
   ##{$fullscreenSearchbar}-results {
 
 
     li .title {
-      color: black;
+      color: $fsS-light-resultsTitle;
       font-weight: bold;
     }
 
     a {
-      color: #444;
+      color: $fsS-light-resultsText;
     }
 
     a:hover, a:focus {
-      color: black;
-      background-color: white;
+      color: $fsS-light-resultsText-hovered;
+      background-color: $fsS-light-hoveredResultbackground;
     }
   }
 
   ##{$fullscreenSearchbar}-results::before {
-    color: black;
+    color: $fsS-light-resultsTitle;
   }
 }
 
@@ -279,6 +288,7 @@ $inlineSearchbar: fuse-search-inline-searchbar;
   z-index: 50;
   padding: 5px;
   box-sizing: content-box;
+  background-color: $inlineS-background;
 
   input##{$inlineSearchbar}-input {
     width: 100%;
@@ -288,6 +298,8 @@ $inlineSearchbar: fuse-search-inline-searchbar;
     padding: 3px;
     border-radius: 3px;
     box-sizing: border-box;
+    color: $inlineS-inputText;
+    background-color: $inlineS-inputBackground;
   }
 
   ##{$inlineSearchbar}-results { 
@@ -296,7 +308,7 @@ $inlineSearchbar: fuse-search-inline-searchbar;
     margin: 0px;
     margin-bottom: 10px;
     padding: 0;
-    background-color: #333;
+    background-color: $inlineS-resultsBackground;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 
@@ -304,12 +316,12 @@ $inlineSearchbar: fuse-search-inline-searchbar;
       list-style: none; 
       margin-left: 15px;
       padding-left: 5px;
-      border-left: 1px dashed white;
+      border-left: $inlineS-resultsRuler;
       padding-top: 6px;
       padding-bottom: 6px;
 
       .title {
-        color: #fff;
+        color: $inlineS-resultsTitle;
         font-size: 1.1em;
         width: 100%;
         display: inline-block;
@@ -326,16 +338,16 @@ $inlineSearchbar: fuse-search-inline-searchbar;
         width: 100%;
         display: inline-block;
         text-decoration: none;
-        color: #777;
+        color: $inlineS-resultsText;
       }
 
       a:hover, a:focus { 
-        color: #fff !important;
+        color: $inlineS-resultsText-hovered !important;
       }
     }
 
     li:hover {
-      background-color: #222;
+      background-color: $inlineS-hoveredResultBackground;
     }
   }
 }
